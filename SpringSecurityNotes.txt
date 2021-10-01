@@ -1,0 +1,144 @@
+Spring Security common vulnerabilities :
+
+1) Session fixation,
+2) Clickjacking,
+3) Click site request forgery
+
+Benefits:
+1) widely adapted
+
+What the developer can do with this concept:
+1) username / password authentication,
+2) SSO / Okta / LDAP, 
+3) App level Authorization,
+4) Intra App Authorization like OAuth,
+5) Microservices Security (Using tokens, JWT),
+5) Method level security.
+
+Five core terms that has to be understood by every developer in Java World like,
+1) Authentication,
+2) Authorization,
+3) Principal,
+4) Granted Authority,
+5) Roles.
+
+In detail Explaination of these above five cores of spring security :
+1) Authetication :
+	=> Who are you? => prove the identity who exactly the person is - "Authentication".
+	=> There is a subpart of authentication is "Knowledge-Based Authentication where user can be authenticated by unique ids with
+	multiple accounts on specific platforms." -- Authentication based upon knowledge like password, pincode, answer of one the security
+	questions and etc...
+	=> Benefit of this kind of authentication is Easy to implement and use.
+	=>Demerits of this kind of authentication is Not fully safe. For ex, hackers might be steal your password and know your 
+	authentication from one of your accounts.
+	=> Second term of an authentication is Possession-Based Authentication. 
+	=> Third type of authentication is multi factor authentication. It is a combination of previous types which are knowledge and
+	possession-based authentications.
+
+2) Authorization :
+	=> "Can this user do this operation or action?" OR "Is this user allowed to this task on our system?" => indicates where the
+	particular user can access in the system and how much accessibility he/she has on the system.
+	=> Example of Retail Store - Authorization ususally may depend on Role-Based paradigm like "who the user is?" which decides 
+	which access this user is deserved for, in this perticular system.
+	=> In this above example, store clerk is one of members of this system as fully authenticated and he only has a access for
+	"point of sale functionality" and  "check items in inventory".
+	=> Department Manager (Also a member of our system) has an accessbility of generating or viewing department reports for 
+	stock tracking.
+	=> Store Manager (Also a member of our system) has an access of making store reports and maintaining store financials.
+	=> This above allotment about various activities to certain folks on our system followed the mechanism called "AUTHORIZATION". 
+ 
+3) Principal :
+	=> It is known as "currently logged in user".
+	=> Your app will set the principal after the user has authenticated completely so that user needn't do login over and over again
+	in between every page requests or data transitions over the web pages.
+	=> In google, One user can have multiple google accounts or multiple IDs, but there's usually just one "currently logged in user"
+	which is officialy called "principal" in the spring security framework per user request on any web page.
+
+4) Granted Authorities :
+	=> How does the authorization happen? - there may some bunch of permission for given user. This concept of having many permissions
+	called "Granted Authority".
+	=> Authorities may be fine-grained.
+
+4) Role :
+	=> Group of authorities that are usually assigned together.
+	=> Roles are coarse-grained.
+	=> Spring security used to implement "authorities vs roles" interchangebly.
+
+----------------------------------------------------------------------------------------------------
+
+Spring Security default behaviour :
+1) Adds mandatory authentication for all URLs,
+2) Adds a default login form with validation,
+3) Handles login error for example, if user enters wrong username or password then redirects again to login
+page otherwise directly jump to the page what the user wanna visit,
+4) Creates a user and gives a default password which is an auto-generated encrypted string.
+
+If we want set default username and password on the given login form of spring security framework
+manually then do some configuration inside "application.properties" file,
+spring.security.user.name = enter_your_desired_value,
+spring_security.user.password = enter_your_desired_value;
+
+-----------------------------------------------------------------------------------------------------
+Que-1 How to configure Spring Security Authentication?
+=>1) Authentication Manager: it is here in the application for authentication of any user.
+=> This manager provides authenticate() function which either returns success message when authentiation of
+any user has successful otherwise throws an exception if authentication fails.
+	=> Need to work with the builder class called "AuthenticationManagerBuilder".
+		Step 1: Get the hold of AuthenticationManagerBuilder,
+		Step 2: Set the configuration on it.
+	=> authorize(AuthenticationBuilderManager manager) is an overidden method of WebSecurityConfigurerAdapter
+	Interface for "Authentication".
+-----------------------------------------------------------------------------------------------------
+Que-2 How to configure Spring Security Authorization?
+=> 	1) HttpSecurity => An instance of this passes as a parameter to the configure() function,
+	=> "http" => it is a nothing but an instance of HttpSecurity which helped for start making a
+	chain of methods that has to be established for valid authorization about specified roles on the
+	system.
+	=> configure(HttpSecurity http) function is an overidden method WebSecurityConfigurerAdpater
+	Interface for "Authorization".
+	
+
+	2) AuthrizeRequests() => this specifies the mapping of the path to roles,
+	AntMatchers() => It configures what the path should be by using such wildcards (path patterns)
+	like, whatever path a developer define using @RequestMapping("/login") annotation."/login" is a
+	path pattern that's what I need to mention as a parameter inside an Antmatchers() function.
+	=> (/**) indicates all paths including current ones as well as below paths.
+	
+	3) hasRole() function defines the role that exactly which kind of user is going to access the
+	particular page. i.e, hasRole("USER");
+
+	4) hasAnyRole() function takes multiple arguments like if you wanna give an access of some specific
+	pages to more than one roles then it will help you to proceed accordingly.
+	i.e, anyRole("USER","ADMIN","EMPLOYEE");
+	
+	5) and() indicates do a partition between multiple functionalities or approaches.
+
+	6) formLogin() decides that you are going to be forwarded for form-based authorization.
+	=> It gives readymade form with perfect server-side validation which made up by default from
+	spring security.
+	
+	7) permitAll() indicates that everyone use those web pages which must be manually specified
+	with this function for any role.
+	
+Que 3: How spring security authentication works internally?
+	=> Here, filters comes into picture. Spring security gives its own filter for validating requests before sending to actual servlets
+	=> "Spring Boot Starter Security" dependancy gives an access via All urls with (/**) to all webpages which also maps Spring Security own filter called
+	"Delegating Filter Proxy".
+	=>Example of XML file about mapping of this above filter as follows:
+		<filter>
+			<filter-name>springSecurityFilterchain</filter-name>
+			<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		</filter>
+		<filter-mapping>
+			<filter-name>springSecurityFilterchain</filter-name>
+			<url-pattern>/*</url-pattern>
+		</filter-mapping>
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Que 4: Spring Boot + Spring Security + JPA Authentication + Mysql Support :-
+
+	=> 
+
+
+
+

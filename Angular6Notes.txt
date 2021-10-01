@@ -1,0 +1,11 @@
+Angular 6 Technology :
+
+Retrieve all details after clicking on submit button using ngif concept.
+
+var => it can  be global
+	it can redeclare
+
+let => it can be local
+	it can't redeclare
+
+const => 

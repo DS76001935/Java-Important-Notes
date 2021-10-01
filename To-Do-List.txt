@@ -1,0 +1,14 @@
+Toster installation and implementation with success as well as error message,
+JQuery installation,
+Bootstrap implementation,
+Login implementation - Redirection to home page
+view all users using only instantiate array object names "users"
+Before view users, try to generate random integer or single-digit numbers
+Delete the particular user from specified index using splice() method.
+Update the particular user.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
